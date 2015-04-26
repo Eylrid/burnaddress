@@ -1,0 +1,10 @@
+burnaddress takes a base 58 input string and creates a valid, but **unspendable**,
+Bitcoin address out of it.
+
+Based on https://en.bitcoin.it/wiki/Technical_background_of_Bitcoin_addresses
+and https://en.bitcoin.it/wiki/Base58Check_encoding and inspired by
+1BitcoinEaterAddressDontSendf59kuE.
+
+**WARNING: Addresses created with this have no associated private keys and
+cannot be spent from! Do not send any bitcoin to any of them unless you intend
+to burn it!**
