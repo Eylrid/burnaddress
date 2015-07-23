@@ -1,10 +1,26 @@
 burnaddress takes a base 58 input string and creates a valid, but **unspendable**,
-Bitcoin address out of it.
+cryptocurrency address out of it.
+
+This version is customized to create Ethercoin addresses that have 0x21 as
+the version byte and start with 'EJ'. The 'J' is necessary because not all
+addresses that start with 'E' have 0x21 as the first byte.
+
+This can be used in three ways:
+
+1. Run gui.py for a Tkinter GUI. Enter your string in the Vanity field and press enter.
+You can also change the version number, payload, or checksum and get the
+base 58 result.
+
+2. Run burnaddress.py in a console. It will ask for a string and print the
+resulting burn address, along with a warning.
+
+3. import burnaddress from another python script.
+burnaddress.base58_to_base58check will take a string and output a burn address.
 
 Based on https://en.bitcoin.it/wiki/Technical_background_of_Bitcoin_addresses
 and https://en.bitcoin.it/wiki/Base58Check_encoding and inspired by
 1BitcoinEaterAddressDontSendf59kuE.
 
 **WARNING: Addresses created with this have no associated private keys and
-cannot be spent from! Do not send any bitcoin to any of them unless you intend
-to burn it!**
+cannot be spent from! Do not send any coins to any of them unless you intend
+to burn them!**

@@ -70,9 +70,9 @@ def decode_base_58(base58):
 
     return result
 
-def encode_base_58_check(s, version='\x00'):
-    '''Take a string and a version and return a base58check'''
-    bytes = version + s
+def encode_base_58_check(s):
+    '''Take a string (including version) and return a base58check'''
+    bytes = s
     check = checksum(bytes)
     bytes += check
     return encode_base_58(bytes)
@@ -87,20 +87,21 @@ def decode_base_58_check(base58check):
     if checksum(bytes) != check: raise ChecksumError('invalid checksum')
     return bytes[0], bytes[1:]
 
-def base58_to_base58check(base58):
+def base58_to_base58check(base58, prepend='EJ'):
     '''Take a base58 encoded string and turn it into a base58check'''
-    base58 = base58 + CODESTRING[-1]*6        # pad base58 to give room for checksum
+    padchar = CODESTRING[len(CODESTRING)/2]
+    base58 = prepend + base58 + padchar*6        # pad base58 to give room for checksum
     bytes = decode_base_58(base58)
-    if len(bytes) < 24:
+    if len(bytes) < 25:
         # pad to get valid address length
-        base58 = base58 + CODESTRING[-1]*int(((24-len(bytes))*math.log(256.)/math.log(58.)))
+        base58 = base58 + padchar*int(((25-len(bytes))*math.log(256.)/math.log(58.)))
         bytes = decode_base_58(base58)
-        if len(bytes) < 24:
+        if len(bytes) < 25:
             # still not long enough
-            base58 += CODESTRING[-1]
+            base58 += padchar
             bytes = decode_base_58(base58)
 
-    assert len(bytes) == 24
+    assert len(bytes) == 25
 
     bytes = bytes[:-4]                        # remove checksum bytes
     return encode_base_58_check(bytes)
